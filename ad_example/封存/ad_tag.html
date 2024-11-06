@@ -1,0 +1,65 @@
+<script>
+  var anchor = window.frameElement.parentNode;//文中
+  (async function (a) {
+    var layoutID = {'id':'data-layout-id="mobile-inread-image-pd1-customize_interstitial"'};
+    function buildStyle() {
+      return new Promise(resolve => {
+        var style = a.createElement('link');
+        style.setAttribute('type', 'text/css');
+        style.setAttribute('rel', 'stylesheet');
+        style.setAttribute('href', '{{FILE_ROLLPAGEIMG_CSS}}');
+        style.addEventListener("load", resolve, {once: true});
+        a.head.appendChild(style);
+      });
+    }
+    function buildTemplate() {
+      var TenMaxTemplate = a.createElement('div');
+      TenMaxTemplate.setAttribute('id', 'rollpageImg');
+      var stickyWindow = a.createElement('div');
+      stickyWindow.setAttribute('class', 'stickyWindow');
+      TenMaxTemplate.appendChild(stickyWindow);
+      var TenMaxBannerBundle = a.createElement('a');
+      TenMaxBannerBundle.setAttribute('class', 'TenMaxBannerBundle');
+      TenMaxBannerBundle.setAttribute('target', '_blank');
+      stickyWindow.appendChild(TenMaxBannerBundle);
+      var button = a.createElement('button');
+      button.setAttribute('class', 'TenMaxCloseBtn');
+      TenMaxBannerBundle.appendChild(button);
+      var close = a.createElement('img');
+      close.src = 'https://tenmax-static.cacafly.net/ssp/H5_Creative_Advertising/img/bt_close.png';
+      button.appendChild(close);
+      var TenMaxInterstitial = a.createElement('div');
+      TenMaxInterstitial.setAttribute('class', 'TenMaxInterstitial');
+      var images = ['{{IMG_04}}', '{{IMG_03}}', '{{IMG_02}}', '{{IMG_01}}'];
+      for (let num of images) {
+        var pic = a.createElement('img');
+        pic.src = num;
+        TenMaxInterstitial.appendChild(pic);
+      };
+      TenMaxBannerBundle.appendChild(TenMaxInterstitial);
+      var TenMaxPageNum = a.createElement('div');
+      TenMaxPageNum.setAttribute('class', 'pageNum');
+      TenMaxBannerBundle.appendChild(TenMaxPageNum);
+      var TenMaxLogo = a.createElement('div');
+      TenMaxLogo.setAttribute('class', 'TenMaxLogo');
+      TenMaxBannerBundle.appendChild(TenMaxLogo);
+      anchor.parentNode.insertBefore(TenMaxTemplate, anchor);
+    }
+    function buildScript() {
+      var script = a.createElement('script');
+      script.setAttribute('id', 'rollpageImgJs');
+      script.setAttribute('type', 'module')
+      script.setAttribute('data-click-url', '%%CLICK_URL_UNESC%%');
+      script.setAttribute('data-viewable-url', '%%VIEWABLE_IMPRESSION_URL_UNESC%%');
+      script.setAttribute('data-SSPviewable-url', '%%SSP_VIEWABLE_IMPRESSION_URL_UNESC%%');
+      script.setAttribute('data-ADXviewable-url', '%%ADX_VIEWABLE_IMPRESSION_URL_UNESC%%');
+      script.src = '{{FILE_ROLLPAGEIMG_JS}}';
+      script.async = 'async';
+      anchor.parentNode.appendChild(script);
+    }
+    await buildStyle();
+    buildTemplate();
+    buildScript();
+  })(parent.document);
+  anchor.style.display = 'none';
+</script>
